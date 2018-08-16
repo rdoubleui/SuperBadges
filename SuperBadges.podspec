@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = 'https://github.com/odedharth/SuperBadges'
-  s.screenshots      = 'https://s23.postimg.org/zdakj47kr/Super_Bage.png'
+#  s.screenshots      = 'https://s23.postimg.org/zdakj47kr/Super_Bage.png'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'odedharth' => 'odedharth@gmail.com' }
   s.source           = { :git => 'https://github.com/odedharth/SuperBadges.git', :tag => s.version.to_s }

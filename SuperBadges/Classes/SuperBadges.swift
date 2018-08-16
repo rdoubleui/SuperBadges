@@ -1,12 +1,9 @@
 public extension UITabBarController {
     func addDotAtTabBarItemIndex(index: Int, radius : CGFloat = 5, color : UIColor = UIColor.red, text : String? = nil) {
         let tag = index + 999
-        for subview in self.tabBar.subviews {
-            if subview.tag == tag {
-                subview.removeFromSuperview()
-                break
-            }
-        }
+        
+        removeDotAtTabBarItemIndex(index: index)
+        
         let dotRadius: CGFloat = radius
         let dotDiameter = dotRadius * 2
         let TabBarItemCount = CGFloat(self.tabBar.items!.count)
@@ -19,7 +16,7 @@ public extension UITabBarController {
             dot.tag = tag
             dot.backgroundColor = color
             dot.layer.cornerRadius = dotRadius
-            self.tabBar.addSubview(dot)
+            tabBar.subviews[index + 1].subviews.first?.insertSubview(dot, at: 1)
         } else {
             let xOffset = HalfItemWidth * CGFloat(index * 2 + 1) - 3
             let TopMargin:CGFloat = 3
@@ -29,14 +26,15 @@ public extension UITabBarController {
             label.adjustsFontSizeToFitWidth = true
             label.minimumScaleFactor = 0.3
             label.text = text!
-            self.tabBar.addSubview(label)
+            tabBar.subviews[index + 1].subviews.first?.insertSubview(label, at: 1)
         }
     }
     
     func removeDotAtTabBarItemIndex(index: Int) {
         let tag = index + 999
-        for subview in self.tabBar.subviews {
-            if subview.tag == tag {
+        
+        if let subviews = tabBar.subviews[index + 1].subviews.first?.subviews {
+            for subview in subviews where subview.tag == tag {
                 subview.removeFromSuperview()
             }
         }
