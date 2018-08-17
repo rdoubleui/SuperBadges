@@ -1,33 +1,32 @@
 public extension UITabBarController {
-    func addDotAtTabBarItemIndex(index: Int, radius : CGFloat = 5, color : UIColor = UIColor.red, text : String? = nil) {
+    func addTextAtTabBarItemIndex(index: Int, xOffset: Int = 18, yOffset: Int = 7, text : String) {
+        let labelWidth = 30
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: labelWidth, height: labelWidth))
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
+        label.text = text
+        addSubViewAtTabBarItemIndex(index: index, view: label, offset: CGRect(x: xOffset, y: yOffset, width: labelWidth, height: labelWidth))
+    }
+    
+    func addIndicatorAtTabBarItemIndex(index: Int, radius: Int = 5, xOffset: Int = 18, yOffset: Int = 7, color : UIColor = UIColor.red) {
+        let dotDiameter = radius * 2
+        let dot = UIView(frame: CGRect(x: 0, y: 0, width: dotDiameter, height: dotDiameter))
+        dot.backgroundColor = color
+        dot.layer.cornerRadius = CGFloat(radius)
+        
+        addSubViewAtTabBarItemIndex(index: index, view: dot, offset: CGRect(x: xOffset, y: yOffset, width: dotDiameter, height: dotDiameter))
+    }
+    
+    func addSubViewAtTabBarItemIndex(index: Int, view: UIView, offset: CGRect) {
         let tag = index + 999
         
         removeDotAtTabBarItemIndex(index: index)
         
-        let dotRadius: CGFloat = radius
-        let dotDiameter = dotRadius * 2
-        let TabBarItemCount = CGFloat(self.tabBar.items!.count)
-        let HalfItemWidth = view.bounds.width / (TabBarItemCount * 2)
-        let imageHalfWidth: CGFloat = (self.tabBar.items![index]).selectedImage!.size.width / 2
-        if text == nil {
-            let xOffset = HalfItemWidth * CGFloat(index * 2 + 1)
-            let TopMargin:CGFloat = 7
-            let dot = UIView(frame: CGRect(x: xOffset + imageHalfWidth, y: TopMargin, width: dotDiameter, height: dotDiameter))
-            dot.tag = tag
-            dot.backgroundColor = color
-            dot.layer.cornerRadius = dotRadius
-            tabBar.subviews[index + 1].subviews.first?.insertSubview(dot, at: 1)
-        } else {
-            let xOffset = HalfItemWidth * CGFloat(index * 2 + 1) - 3
-            let TopMargin:CGFloat = 3
-            let label = UILabel(frame: CGRect(x: xOffset + imageHalfWidth, y: TopMargin, width: dotDiameter, height: dotDiameter))
-            label.tag = tag
-            label.numberOfLines = 1
-            label.adjustsFontSizeToFitWidth = true
-            label.minimumScaleFactor = 0.3
-            label.text = text!
-            tabBar.subviews[index + 1].subviews.first?.insertSubview(label, at: 1)
-        }
+        let holder = UIView(frame: offset)
+        holder.tag = tag
+        holder.addSubview(view)
+        tabBar.subviews[index + 1].subviews.first?.insertSubview(holder, at: 1)
     }
     
     func removeDotAtTabBarItemIndex(index: Int) {
